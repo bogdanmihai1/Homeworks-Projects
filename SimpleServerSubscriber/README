@@ -1,0 +1,2 @@
+A simple server that allows clients to subscribe and unsubscribe to different topics.
+The connection to the server is made using sockets.
