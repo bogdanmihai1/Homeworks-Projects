@@ -1,0 +1,2 @@
+A simplified implementation of Random Forest algorithm that can recognize numbers 
+from 0 to 9 in a black and white picture with an accuracy of ~95%.
