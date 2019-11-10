@@ -1,0 +1,7 @@
+Simulation of a Sheriff of Nottingham game implemented in Java.
+There are 3 different strategies:
+- Basic = tries to play legally and inspects every other player when he is the sheriff.
+- Greedy = plays a Basic strategy in odd rounds and tries to add an illegal good in
+           even rounds and inspects everyone that does not bribe him when sheriff.
+- Bribed = adds as many illegal goods as possible and tries to bribe the sheriff;
+           as sheriff, he only inspects the players next to him(left and right).

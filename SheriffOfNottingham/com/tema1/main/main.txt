@@ -1,0 +1,48 @@
+package com.tema1.main;
+
+import java.util.ArrayList;
+
+import com.tema1.players.Player;
+import com.tema1.players.PlayerFactory;
+
+public final class Main {
+    private Main() {
+        // just to trick checkstyle
+    }
+
+    public static void main(final String[] args) {
+        GameInputLoader gameInputLoader = new GameInputLoader(args[0], args[1]);
+        GameInput gameInput = gameInputLoader.load();
+        //TODO implement homework logic
+        ArrayList<Integer> deck = (ArrayList<Integer>) gameInput.getAssetIds();
+        Deck.getInstance().init(deck);
+        ArrayList<Player> players = new ArrayList<>();
+
+        for (String player : gameInput.getPlayerNames()) {
+            Player newPlayer = PlayerFactory.getInstance().getPlayer(player);
+            players.add(newPlayer);
+        }
+
+        for (int i = 0; i < gameInput.getRounds(); i++) {
+            Round.getInstance().nextRound(players);
+        }
+
+        int index = 0;
+
+        for (Player player : players) {
+            player.addIllegalBonuses();
+            player.setId(index);
+            index++;
+        }
+
+        ScoreCalculator.getInstance().kingQueenBonus(players);
+        ScoreCalculator.getInstance().finalScore(players);
+
+        players.sort((final Player a, final Player b) ->
+        b.getScore() - a.getScore());
+
+        for (Player player : players) {
+            System.out.println(player.displayScore());
+        }
+    }
+}
