@@ -2,6 +2,8 @@ Florian-Bogdan MIHAI
 331CA
 Tema 2 EGC
 
+Executabilul se gaseste in Release/Framework_EGC.exe
+
 Cum se joaca:
 	- Miscarea avionului: - avionul se va deplasa catre ultima pozitie inregistrata a mouse-ului
 	- Acceleratie: - SPACEBAR
