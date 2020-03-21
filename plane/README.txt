@@ -3,6 +3,7 @@ Florian-Bogdan MIHAI
 Tema 2 EGC
 
 Executabilul se gaseste in Release/Framework_EGC.exe
+Framework: https://github.com/UPB-Graphics/Framework-EGC
 
 Cum se joaca:
 	- Miscarea avionului: - avionul se va deplasa catre ultima pozitie inregistrata a mouse-ului
