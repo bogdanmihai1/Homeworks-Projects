@@ -1,0 +1,51 @@
+Florian-Bogdan MIHAI, 331 CA
+Tema 2 SO
+
+Organizare
+Structura SO_FILE:
+	fd = descriptorul fisierului				
+	position = pozitia curenta din fisier, fara a lua in consideratie datele
+				din bufferul pentru scriere
+	size = dimensiunea fisierului
+	buffer
+	command = comanda data ca parametru lui so_popen
+	buffer_start = pozitia de start in fisier a bufferului este
+					buffer_start * BUFFER_SIZE
+	buffer_len = dimensiunea curenta a bufferului
+	buffer_op = modul in care este folosit buffferul
+				(citire/scriere/nu este folosit)
+	isAppend = daca fisierul este deschis in modul "a" sau "a+"
+	error = ultimul cod de eroare primit
+	eof = s-a ajuns sau nu la end of file
+
+Implementare
+	- tema este complet functionala, mai putin deschiderea unui fisier
+		cu functia so_popen() in modul write
+	- so_fgetc si so_fputc se ocupa cu popularea bufferului si apelarea
+		functiei read de sistem
+	- so_fflush este singura functie care poate scrie direct in fisier
+	- dupa mai multe incercari de implementare, nu am reusit sa implementez
+		functionalitatea de write pentru fisierele deschise cu so_popen
+		- in ultimele incercari, ultimul test bloca checkerul, asa ca am
+		tratat acest caz ca pe o eroare, returnand fisiere NULL din parinte
+		si din copil
+	- alte dificultati:
+		- pentru testele de read/write huge, codul avea o functionalitate
+		neasteptata deoarece foloseam functia strlen(buffer), de aceea a
+		trebuit sa adaug buffer_len in structura
+		- numar gresit de apeluri de sistem
+		- rezolvarea erorilor din valgrind
+
+Cum se compilează și cum se rulează?
+	- se compileaza folosind comanda make (sau make build)
+
+Bibliografie
+	- pentru so_popen():
+		- https://android.googlesource.com/platform/bionic/+/3884bfe9661955543ce203c60f9225bbdf33f6bb/libc/unistd/popen.c
+		- https://ocw.cs.pub.ro/courses/so/laboratoare/laborator-03
+	- https://ocw.cs.pub.ro/courses/so/laboratoare/laborator-02
+	- https://linux.die.net/man/2/open
+	- https://linux.die.net/man/2/read
+	- https://linux.die.net/man/2/write
+
+	
