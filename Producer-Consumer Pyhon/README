@@ -1,0 +1,27 @@
+Tema 1 ASC - Marketplace
+Florian-Bogdan MIHAI, 331CA
+
+producer:
+	- functia run inregisteaza noul producator si genereaza lista de produse
+	primita in self.products pana cand toti consumatorii au dat place_order
+
+consumer:
+	- se inregistreaza in marketplace prin functia new_cart, iar apoi adauga
+	si elimina produse din cos in functie de comenzile primite in self.carts
+
+marketplace:
+	- producers = lista cu id-urile producatorilor
+    - carts = matrice cu produsele din cos
+    - bought_from = matrice in care retin de la ce producator am pus in cos
+    - products = matrice cu produsele de vanzare(care nu sunt in cos)
+    - end = True daca s-a adaugat cel putin un element intr-un cos
+          - este folosit pentru a nu opri producatorii inainte de inceperea
+          consumatorilor
+    - am folosit lock pentru functia add_to_cart pentru a nu se gasi acelasi
+    element de mai multi consumatori (chiar daca operatiile sunt threadsafe,
+    daca doi consumatori gasesc acelasi produs, primul il va pune in cos iar
+    al doilea nu va mai gasi produsul, chiar daca un alt producator il are
+    disponibil)
+    - toate celelalte functii sunt threadsafe deoarece fiecare producator sau
+    consumator lucreaza cu propriul buffer
+    - pentru siguranta, am folosit si functiile de append/pop/remove pentru liste
