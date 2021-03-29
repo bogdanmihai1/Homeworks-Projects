@@ -1,0 +1,160 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Proiect ISI</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/dark/main.css">
+  <script src="https://js.arcgis.com/4.17/"></script>
+  
+  <script>  
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/widgets/Locate",
+      "esri/widgets/Track", 
+      "esri/Graphic",
+      "esri/widgets/BasemapToggle",
+      "esri/widgets/BasemapGallery",
+      "esri/layers/CSVLayer",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/LayerList",
+      "esri/widgets/Legend"
+    ], function(Map, MapView, Locate, Track, Graphic, BasemapToggle, BasemapGallery, CSVLayer, FeatureLayer, LayerList, Legend) {
+
+      var map = new Map({
+        basemap: "topo-vector"
+      });
+      
+
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [14.4378, 50.0755], // longitude, latitude
+      zoom: 12
+      });
+      
+
+var artworkRenderer = {
+        type: "simple",
+        symbol: {
+          type: "picture-marker",
+          url: "https://cdn.onlinewebfonts.com/svg/img_172232.png",
+          width: "15px",
+          height: "15px"
+        }
+      }
+var popupArtwork = {
+"title": "{name}"
+      }
+      
+      var artworkLayer = new CSVLayer({
+  url: "https://raw.githubusercontent.com/bogdanmihai1/ISI/main/ARTWORK.csv",
+        title: "Artwork",
+        renderer: artworkRenderer,
+        popupTemplate: popupArtwork
+});
+map.add(artworkLayer,0);
+      
+      var hostelRenderer = {
+        type: "simple",
+        symbol: {
+          type: "picture-marker",
+          url: "https://cdn.onlinewebfonts.com/svg/img_450585.png",
+          width: "15px",
+          height: "15px"
+        }
+      }
+var popupHostel = {
+"title": "{name}"
+      }
+      
+      var hostelLayer = new CSVLayer({
+  url: "https://raw.githubusercontent.com/bogdanmihai1/ISI/main/HOSTEL.csv",
+        title: "Hostel",
+        renderer: hostelRenderer,
+        popupTemplate: popupHostel
+});
+map.add(hostelLayer,0);
+      
+      var cityLayer = new FeatureLayer({
+  url: "https://services7.arcgis.com/GuAJAuATrnHCftYg/arcgis/rest/services/Agregace_bod%C5%AF_z_vrstvy_praha1_/FeatureServer",
+        title: "Prague"
+});
+map.add(cityLayer,1);
+      
+      const layerList = new LayerList({
+  view: view,
+  listItemCreatedFunction: function(event) {
+    const item = event.item;
+    if (item.layer.type != "group") {
+      item.panel = {
+        content: "legend",
+        open: false
+      };
+    }
+  }
+});
+view.ui.add(layerList, "bottom-left");
+      
+      var basemapGallery = new BasemapGallery({
+        view: view,
+        source: {
+          portal: {
+            url: "http://www.arcgis.com",
+            useVectorBasemaps: true, // Load vector tile basemap group
+          },
+        } 
+      });
+
+       
+    var legend = new Legend({
+            view: view,
+            layerInfos: [
+              {
+                layer: artworkLayer,
+                title: "Artwork"
+              },
+              {
+                layer: hostelLayer,
+                title: "Hostel"
+              }
+            ]
+          });
+
+         
+          view.ui.add(legend, "top-right");
+     // view.ui.add(basemapGallery, "top-right"); // Add to the view
+      var track = new Track({
+          view: view,
+          graphic: new Graphic({
+            symbol: {
+              type: "simple-marker",
+              size: "12px",
+              color: "green",
+              outline: {
+                color: "#efefef",
+                width: "1.5px"
+              }
+            }
+          }),
+          useHeadingEnabled: false
+        });
+        view.ui.add(track, "top-left");
+    });
+    
+    
+  </script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
